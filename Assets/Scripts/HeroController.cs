@@ -10,21 +10,28 @@ public class HeroController : MonoBehaviour
     private float yAccel = 2.5f;
     [SerializeField] private float maxVerticalAccel = 10f;
     [SerializeField] private float maxHorizAccel = 2f;
-    private Boolean facingLeft = true;
+    private Boolean isFacingLeft = true;
+    
+    // Animations
+    private Animator heroAnimation;
     
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        heroAnimation = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        float xLoc = Input.GetAxis("Horizontal");   
-        body.AddForce(new Vector2((xLoc * maxHorizAccel), Mathf.Abs(xLoc * maxVerticalAccel)));
+        float horizontalSpeed = Input.GetAxis("Horizontal");
+        heroAnimation.SetFloat("flapSpeed", horizontalSpeed);
         
-        if ((xLoc > 0 && facingLeft) || (xLoc < 0 && !facingLeft))
+        
+        body.AddForce(new Vector2((horizontalSpeed * maxHorizAccel), Mathf.Abs(horizontalSpeed * maxVerticalAccel)));
+        
+        if ((horizontalSpeed > 0 && isFacingLeft) || (horizontalSpeed < 0 && !isFacingLeft))
         {
             FlipImage();
         }
@@ -34,7 +41,7 @@ public class HeroController : MonoBehaviour
 
     void FlipImage()
     {
-        facingLeft = !facingLeft;
+        isFacingLeft = !isFacingLeft;
         var flipped = transform.localScale;
         flipped.x *= -1;
         transform.localScale = flipped;
