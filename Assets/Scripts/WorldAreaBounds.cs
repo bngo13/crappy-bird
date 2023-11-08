@@ -11,8 +11,12 @@ public class WorldAreaBounds : MonoBehaviour
     private float worldXDist;
     private float worldYDist;
 
+    private GameController game;
+
     void Start()
     {
+        var gameObj = GameObject.FindGameObjectWithTag("GameController");
+        game = gameObj.GetComponent<GameController>();
         
         worldYDist = Camera.main.orthographicSize;
         worldXDist = worldYDist * Screen.width / Screen.height;
@@ -34,6 +38,7 @@ public class WorldAreaBounds : MonoBehaviour
         Destroy(other.gameObject);
         Destroy(explodingObject, explodeAnimator.runtimeAnimatorController.animationClips[0].length);
         Source.Play();
+        game.EndGame();
 
     }
 }

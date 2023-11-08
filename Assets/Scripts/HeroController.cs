@@ -22,7 +22,7 @@ public class HeroController : MonoBehaviour
         heroAnimation = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    // FixedUpdate is not called once per frame
     void FixedUpdate()
     {
         float horizontalSpeed = Input.GetAxis("Horizontal");
